@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Track Your Order{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h1 class="text-primary">Track Your Orders</h1>
+        <p class="text-muted">Click on an order below to view details.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger text-center" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Show Only Recent Orders -->
+    <h3 class="mb-4">Recent Orders</h3>
+    <div class="list-group">
+        {% for order in orders %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>Order ID:</strong> {{ order.order_id }} <br>
+                <strong>Order Date:</strong> {{ order.order_date }} <br>
+                <!-- <strong>Products:</strong> -->
+                {% for item in order.order_items.all %}
+                    {{ item.product.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            <a href="{% url 'order_details' order_id=order.order_id %}" class="btn btn-info">View Details</a>
+        </div>
+        {% empty %}
+        <p>No orders available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Button to Toggle "View All Orders" -->
+    <div class="text-center mt-4">
+        <button id="view-all-button" class="btn btn-secondary">View All Orders</button>
+    </div>
+
+    <!-- All Orders List (Initially Hidden) -->
+    <div class="list-group mt-4" id="all-orders" style="display: none;">
+        {% for order in all_orders %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>Order ID:</strong> {{ order.order_id }} <br>
+                <strong>Order Date:</strong> {{ order.order_date }} <br>
+                <strong></strong>
+                {% for item in order.order_items.all %}
+                    {{ item.product.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            {% if order.order_id %}
+            <a href="{% url 'order_details' order_id=order.order_id %}" class="btn btn-info">View Details</a>
+        {% else %}
+            <span class="text-danger">Invalid Order ID</span>
+        {% endif %}        </div>
+        {% empty %}
+        <p>No orders available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Track by Order ID Form -->
+    <div class="card shadow-sm mt-5">
+        <div class="card-body">
+            <form method="POST" action="{% url 'track_order' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="order_id" class="form-label">Order ID</label>
+                    <input type="text" name="order_id" id="order_id" class="form-control" placeholder="Enter your Order ID" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Track Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('view-all-button').addEventListener('click', function() {
+        var allOrders = document.getElementById('all-orders');
+        if (allOrders.style.display === 'none') {
+            allOrders.style.display = 'block';
+            this.textContent = 'View Less Orders';  
+        } else {
+            allOrders.style.display = 'none';
+            this.textContent = 'View All Orders';  
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Customer Signup
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="container my-5">
+    <div class="mx-auto bg-body-tertiary shadow-lg p-5" style="max-width: 600px; border-radius: 15px;">
+        <h3 class="text-center text-primary fw-bold">Create Your Account</h3>
+        <p class="text-center text-muted mb-4">Join Farm Fresh and enjoy fresh, organic produce straight to your doorstep!</p>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </div>
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="{% url 'signin' %}" class="text-primary">Log In</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<!-- Footer content -->
+{% endblock footer %}

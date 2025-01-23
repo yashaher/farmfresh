@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Payment Plans{% endblock title %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Choose a Payment Plan</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            {% for plan in plans %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ plan.name }}</h5>
+                        <p class="card-text">{{ plan.description }}</p>
+                        <p class="text-success fw-bold">Price: ₹{{ plan.price }}</p>
+                        <p>Duration: {{ plan.duration_days }} days</p>
+                        <label>
+                            <input type="radio" name="plan_id" value="{{ plan.id }}"> Select
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Subscribe</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

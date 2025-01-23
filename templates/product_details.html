@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+FarmFresh | Product
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid my-4">
+  <div class="row g-4">
+    <!-- Left Panel -->
+    <div class="col-lg-5">
+      <div class="position-sticky d-flex flex-column justify-content-between bg-light p-3 shadow-sm" 
+           style="top: 0; height: 60vh; border-right: 2px solid #dee2e6;">
+        <!-- Product Image -->
+        <div class="rounded bg-white shadow-sm p-3 d-flex justify-content-center align-items-center" 
+             style="height: 75%; overflow: hidden;">
+          <img src="{{ product.image.url }}" class="img-fluid rounded" 
+               alt="{{ product.title|title }}" style="height: 300px; width: 400px; object-fit: cover;">
+        </div>
+
+        <!-- Buttons -->
+        <div class="w-100 mt-auto">
+          <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="weight" class="form-label">Select Weight:</label>
+              <select name="weight" id="weight" class="form-select">
+                {% for weight_price in product.weight_prices.all %}
+                  <option value="{{ weight_price.weight }}">
+                    {{ weight_price.weight }} - ₹{{ weight_price.price }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantity:</label>
+              <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control">
+            </div>
+
+            <div class="row g-2">
+              <!-- Add to Cart Button -->
+              <div class="col-6">
+                <button type="submit" class="btn btn-success w-100 fw-bold">Add to Cart</button>
+              </div>
+              <!-- Buy Now Button -->
+              <div class="col-6">
+                <button type="submit" class="btn btn-success w-100 fw-bold"style="background-color: #f86d00 ">Buy Now</button>              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Left Panel -->
+
+    <!-- Right Panel -->
+    <div class="col-lg-7 bg-light p-4">
+      <!-- Product Title -->
+      <h4 class="fw-bold text-dark">{{ product.title|title }}</h4>
+    
+      <!-- Price Section -->
+      <p class="text-dark fs-5">
+        {% for weight_price in product.weight_prices.all %}
+          <span class="text-success fw-bold">
+            {{ weight_price.weight }}: ₹{{ weight_price.price }}
+          </span><br>
+        {% endfor %}
+      </p>
+    
+      <!-- Highlights Section -->
+      <h5 class="mt-4 text-secondary fw-semibold">Descriptions</h5>
+      <p class="text-muted">{{ product.description }}</p>
+    
+    
+        <li>Freshly harvested vegetables delivered directly from local farms.</li>
+        <li>Dairy products sourced from organic and hormone-free farms.</li>
+        <li>Seasonal fruits and vegetables available for healthier, natural choices.</li>
+        <li>100% pesticide-free and chemical-free produce.</li>
+        <li>Packed hygienically to ensure freshness and safety during delivery.</li>
+        <li>Supports local farmers and promotes sustainable farming practices.</li>
+        <li>Available in customizable combo boxes to suit your family’s needs.</li>
+      </ul>
+
+      <!-- Available Offers -->
+      <h5 class="mt-4 text-success fw-semibold">Available Offers</h5>
+      <ul class="list-group">
+        <li class="list-group-item">Special Price: Get ₹50 off on your first order above ₹300 <span class="text-muted">T&C</span></li>
+        <li class="list-group-item">Freebie: Free Delivery on orders above ₹200 <span class="text-muted">T&C</span></li>
+        <li class="list-group-item">Extra ₹20 Off on purchase of 2kg or more vegetables <span class="text-muted">T&C</span></li>
+        <li class="list-group-item">Dairy Combo Offer: Save ₹30 on purchase of 2 liters of milk with any vegetable box order <span class="text-muted">T&C</span></li>
+        <li class="list-group-item">Special Deal: Buy fresh paneer (500g) at ₹20 off when added with 1kg vegetables <span class="text-muted">T&C</span></li>
+      </ul>
+
+      <!-- Additional Info -->
+      <p class="mt-3">Freshness Guarantee: All vegetables and dairy products come with a freshness guarantee of 48 hours from delivery.</p>
+      <p>Quality Assurance: If the product does not meet quality standards, you can request a replacement within 24 hours of delivery.</p>
+
+      <p class="text-primary fw-semibold">Delivered by: <span class="text-dark ms-1">{{ date }}</span></p>
+
+      <!-- Why Choose Organic Cards -->
+      <div class="container my-5">
+        <h4 class="fw-bold text-success mb-3">Why Choose FarmFresh Products?</h4>
+        <div class="row g-4">
+          <!-- Card 1 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <img src="{% static 'images/soil.jpg' %}" class="card-img-top rounded-top" alt="Healthy Soil">
+              <div class="card-body text-center">
+                <h6 class="card-title text-success fw-bold">Better for Soil</h6>
+                <p class="card-text text-muted">Organic farming improves soil health by using natural fertilizers and avoiding harmful chemicals.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <img src="{% static 'images/organic_fer.jpg' %}" class="card-img-top rounded-top" alt="No Harmful Chemicals">
+              <div class="card-body text-center">
+                <h6 class="card-title text-success fw-bold">No Harmful Chemicals</h6>
+                <p class="card-text text-muted">Organic products are grown without synthetic pesticides, keeping chemicals off your plate.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <img src="{% static 'images/ntrient.jpg' %}" class="card-img-top rounded-top" alt="Nutrient-Rich Foods">
+              <div class="card-body text-center">
+                <h6 class="card-title text-success fw-bold">Nutrient-Rich Foods</h6>
+                <p class="card-text text-muted">Packed with vitamins and antioxidants, organic foods promote better health and immunity.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col-lg-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+              <img src="{% static 'images/nature.jpg' %}" class="card-img-top rounded-top" alt="Protects Biodiversity">
+              <div class="card-body text-center">
+                <h6 class="card-title text-success fw-bold">Protects Biodiversity</h6>
+                <p class="card-text text-muted">Organic farming supports wildlife and ensures sustainable ecosystems for future generations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Why Choose Organic Cards -->
+    </div>
+    <!-- End Right Panel -->
+  </div>
+</div>
+{% endblock content %}

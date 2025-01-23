@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static  %}
+
+
+{% block content %}
+  <div class="container mt-5 mb-5">
+    <h1 class="text-center mb-4" style="font-family: 'Pacifico', sans-serif; color: #2E8B57;">Profile</h1>
+
+    <div class="row justify-content-center">
+      <!-- Profile Card -->
+      <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-3" style="background-color: #F0F8FF;">
+          <div class="card-header text-center" style="background-color: #1ee072; color: white;">
+            <h3>{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h3>
+            <p>{{ user.email }}</p>
+            <!-- <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" width="150"> -->
+            
+          </div>
+
+          <div class="card-body">
+            <!-- Profile Image Section -->
+            <div class="text-center mb-4">
+              {% if customer.profile_picture %}
+                <!-- If profile picture exists, display it -->
+                <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" width="150">
+              {% else %}
+                
+                <img src="{% static 'default-profile.jpg' %}" alt="Profile Picture" class="img-thumbnail rounded-circle" width="150">
+              {% endif %}
+            </div>
+
+            <!-- Customer Details -->
+            <h4 class="mb-3" style="color: #2E8B57;">Customer Details</h4>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <p><strong>Date of Birth:</strong> {{ customer.dob }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Gender:</strong> {{ customer.gender|capfirst }}</p>
+              </div>
+            </div>
+
+            <!-- Orders Section -->
+            <hr class="my-4" style="border-color: #2E8B57;">
+            <h4 class="mb-3" style="color: #2E8B57;">Your Orders</h4>
+
+            <!-- Button to Show All Orders -->
+            <button id="toggleOrdersBtn" class="btn btn-success mb-3" onclick="toggleOrders()">
+              View All Orders
+            </button>
+
+            <!-- Orders List -->
+            <div id="ordersList" class="d-none">
+              {% if orders %}
+                <ul class="list-group">
+                  {% for order in orders %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>Order ID:</strong> {{ order.order_id }}<br>
+                        <strong>Status:</strong> {{ order.get_order_status_display }}<br>
+                        <strong>Date:</strong> {{ order.order_date }}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>You haven't placed any orders yet.</p>
+              {% endif %}
+            </div>
+
+            <!-- Subscription Section -->
+            <hr class="my-4" style="border-color: #2E8B57;">
+            <h4 class="mb-3" style="color: #2E8B57;">Your Subscription</h4>
+            {% if subscription %}
+              <p><strong>Plan:</strong> {{ subscription.payment_plan.name }} - ₹{{ subscription.payment_plan.price }}</p>
+              <p><strong>Status:</strong> {% if subscription.is_active %}Active{% else %}Inactive{% endif %}</p>
+              <p><strong>Start Date:</strong> {{ subscription.start_date }}</p>
+              {% if subscription.end_date %}
+                <p><strong>End Date:</strong> {{ subscription.end_date }}</p>
+              {% endif %}
+            {% else %}
+              <p>You don't have an active subscription.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inner CSS -->
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #FAF0E6;
+    }
+
+    .card-header {
+      background-color: #2E8B57;
+      color: white;
+    }
+
+    .card-body {
+      background-color: #FFFFFF;
+    }
+
+    h1, h4 {
+      font-family: 'Pacifico', sans-serif;
+      color: #2E8B57;
+    }
+
+    hr {
+      border-top: 1px solid #2E8B57;
+    }
+
+    .btn {
+      background-color: #2E8B57;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      background-color: #3CB371;
+    }
+
+    .d-none {
+      display: none;
+    }
+  </style>
+
+  <!-- JavaScript to toggle orders visibility -->
+  <script>
+    function toggleOrders() {
+      const ordersList = document.getElementById('ordersList');
+      const button = document.getElementById('toggleOrdersBtn');
+
+      // Toggle the visibility of the orders list
+      if (ordersList.classList.contains('d-none')) {
+        ordersList.classList.remove('d-none');
+        button.textContent = "Hide All Orders"; // Change button text
+      } else {
+        ordersList.classList.add('d-none');
+        button.textContent = "View All Orders"; // Reset button text
+      }
+    }
+  </script>
+
+{% endblock %}

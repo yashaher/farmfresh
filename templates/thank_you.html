@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Thank You{% endblock title %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Thank You for Your Selection!</h1>
+    <p><strong>Basket Type:</strong> {{ basket_type }}</p>
+    <p><strong>Price:</strong> ₹{{ price }}</p>
+    <p><strong>Selected Vegetables:</strong></p>
+    <ul>
+        {% for veg in selected_vegetables %}
+        <li>{{ veg }}</li>
+        {% endfor %}
+    </ul>
+    <div class="text-center">
+        <a href="{% url 'weekly_basket' %}" class="btn btn-primary">Go Back</a>
+    </div>
+</div>
+{% endblock content %}

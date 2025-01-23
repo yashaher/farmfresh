@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container my-5">
+        <h1 class="mb-4 text-center">Order Details</h1>
+    
+        <!-- Order Info Section -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Order Information</h5>
+                <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+                <p><strong>Status:</strong> <span class="badge {% if order.order_status == 'pending' %}bg-warning{% elif order.order_status == 'shipped' %}bg-primary{% else %}bg-success{% endif %}">{{ order.order_status|title }}</span></p>
+                <p><strong>Total Amount:</strong> ₹{{ order.order_amount }}</p>
+            </div>
+        </div>
+    
+        
+        <div class="mt-5">
+            <div class="status-container d-flex justify-content-between align-items-center">
+            
+                <div class="status-circle {% if order.order_status == 'pending' %}active{% endif %}" data-bs-toggle="tooltip" title="Pending">
+                    <span class="status-text {% if order.order_status == 'pending' %}text-warning{% endif %}">Pending</span>
+                </div>
+    
+                <!-- Arrow between steps -->
+                <div class="status-arrow">
+                    <i class="bi bi-arrow-right-circle-fill {% if order.order_status == 'pending' %}active-arrow{% endif %}"></i>
+                </div>
+    
+                <!-- Shipped Circle -->
+                <div class="status-circle {% if order.order_status == 'shipped' %}active{% endif %}" data-bs-toggle="tooltip" title="Shipped">
+                    <span class="status-text {% if order.order_status == 'shipped' %}text-light{% endif %}">Shipped</span>
+                </div>
+    
+                
+                <div class="status-arrow">
+                    <i class="bi bi-arrow-right-circle-fill {% if order.order_status == 'shipped' %}active-arrow{% endif %}"></i>
+                </div>
+    
+                
+                <div class="status-circle {% if order.order_status == 'delivered' %}active{% endif %}" data-bs-toggle="tooltip" title="Delivered">
+                    <span class="status-text {% if order.order_status == 'delivered' %}text-success{% endif %}">Delivered</span>
+                </div>
+            </div>
+    
+            <!-- Current Status Sidebar -->
+            <div class="status-sidebar mt-4 p-4 rounded shadow bg-light">
+                <h5 class="text-primary">Current Order Status</h5>
+                <p class="status-text {% if order.order_status == 'pending' %}text-warning{% elif order.order_status == 'shipped' %}text-primary{% elif order.order_status == 'delivered' %}text-success{% endif %} fs-4">
+                    {{ order.order_status|title }}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Bootstrap Icons for Arrows -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+    
+        <style>
+            /* Add custom styles for the order status progression */
+.status-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.status-circle.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.text-warning {
+    color: orange;
+}
+
+.text-primary {
+    color: blue;
+}
+
+.text-success {
+    color: green;
+}
+
+.status-arrow {
+    font-size: 30px;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.status-arrow.active-arrow {
+    color: #007bff; /* Blue for active arrow */
+}
+
+/* Sidebar for current status */
+.status-sidebar {
+    background-color: #f1f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.status-sidebar h5 {
+    font-size: 18px;
+    color: #007bff;
+}
+
+.status-sidebar p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 20px;
+    color: #007bff;
+}
+
+/* Bootstrap tooltip customization */
+[data-bs-toggle="tooltip"] {
+    position: relative;
+    cursor: pointer;
+}
+
+            
+        </style>

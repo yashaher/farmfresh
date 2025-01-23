@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}
+Customer Login
+{% endblock title %}
+
+{% block header %}
+<div class="container-fluid w-100">
+    <div class="container-fluid row w-100 p-2 bg-white">
+        <div class="col-lg-3 col-md-4">
+            <h4 class="m-2 text-primary"><i class="fa-solid fa-phone"></i> 7972533564</h4>
+        </div>
+        <div class="col-lg-6 text-center">
+            <h4 class="m-0 display-4 text-primary fw-semibold">FARM <span style="color: chocolate;">FRESH</span></h4>
+        </div>
+        <div class="col-lg-3">
+            <div class="d-flex align-items-center justify-content-end">
+                <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
+                <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-primary btn-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+    <a href="{% url 'index' %}" class="navbar-brand d-flex d-lg-none">
+        <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav mx-auto py-0">
+            <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+            <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+            <a href="{% url 'farm_tourism' %}" class="nav-item nav-link">Farm Tourism</a>
+            <a href="" class="nav-item nav-link">Product</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Product</a>
+                <div class="dropdown-menu m-0">
+                    <a href="blog.html" class="dropdown-item">Vegetable</a>
+                    <a href="detail.html" class="dropdown-item">Dairy Product</a>
+                    <a href="feature.html" class="dropdown-item">Fruits</a>
+                    <a href="#" class="dropdown-item">Other</a>
+                </div>
+            </div>
+            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+        </div>
+        <!-- {% if user.is_authenticated %}
+        <div class="d-flex align-items-center">
+            <a class="text-light" href="{% url 'logout' %}" role="button">
+                <i class="fa-solid fa-circle-user me-2 fs-2"></i><span class="text-light fs-3">Logout</span>
+            </a>
+        </div>
+        {% else %}
+        <div class="d-flex align-items-center">
+            <a class="text-light" href="{% url 'signin' %}" role="button">
+                <i class="fa-solid fa-circle-user me-2 fs-2"></i><span class="text-light fs-3">Login</span>
+            </a>
+        </div>
+        {% endif %}
+    </div> -->
+</nav>
+{% endblock header %}
+
+{% block content %}
+<div class="container-fluid shadow bg-light rounded p-4 mt-5" style="max-width: 600px;">
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{error}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+  
+    <h3 class="text-center mb-4 text-primary">Log In to Your Account</h3>
+    <form action="" method="post">
+      {% csrf_token %}
+  
+      <div class="mb-3">
+        <label for="inputEmail3" class="form-label fw-semibold">Enter Username</label>
+        <input type="text" class="form-control shadow-sm" id="inputEmail3" placeholder="Choose username" name="uname" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="inputPassword3" class="form-label fw-semibold">Password</label>
+        <input type="password" class="form-control shadow-sm" id="inputPassword3" placeholder="Enter your password" name="pass1" required>
+      </div>
+  
+      <div class="d-flex justify-content-between mb-4">
+        <a href="{% url 'customer_signup' %}" class="text-decoration-none text-primary">Create a new account</a>
+        <a href="{% url 'forgot_password' %}" class="text-decoration-none text-primary">Forgot password?</a>
+      </div>
+  
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary btn-lg shadow">Sign In</button>
+      </div>
+    </form>
+  </div>
+  
+{% endblock content %}
+
+    {% block footer %}
+    <!-- Add footer content here -->
+    {% endblock footer %}
+
+    
